@@ -15,7 +15,7 @@ namespace RPG.Characters {
 		[SerializeField] AnimatorOverrideController animatorOverrideController = null;
 
 		// Temporarily serialized for dubbing
-		[SerializeField] SpecialAbilityConfig ability1;
+		[SerializeField] SpecialAbilityConfig[] abilities;
 
 		Animator animator;
 	    float currentHealthPoints;
@@ -30,7 +30,7 @@ namespace RPG.Characters {
 			SetCurrentMaxHealth ();
 			PutWeaponInHand ();
 			SetupRuntimeAnimator ();
-			ability1.AddComponent (gameObject); // Custom AddComponent
+			abilities[0].AttackComponentTo (gameObject);
 	    }
 
 		private float SetCurrentMaxHealth () {
@@ -68,15 +68,15 @@ namespace RPG.Characters {
 			if (Input.GetMouseButton (0) && IsTargetInRange(enemy.gameObject)) {
 				AttackTarget (enemy);
 			} else if (Input.GetMouseButtonDown(1)) {
-				AttemtSpecialAbility1(enemy);
+				AttemtSpecialAbility(0, enemy);
 			}
 		}
 
-		private void AttemtSpecialAbility1 (Enemy enemy) {
+		private void AttemtSpecialAbility (int abilityIndex, Enemy enemy) {
 			var energyComponent = GetComponent<Energy> ();
 			if (energyComponent.IsEnergyAvailable (10f)) { // TODO Read from scriptable object
 				energyComponent.ConsumeEnergy (10f);
-				// TODO Use the ability
+				abilities [abilityIndex].Use ();
 			}
 		}
 
