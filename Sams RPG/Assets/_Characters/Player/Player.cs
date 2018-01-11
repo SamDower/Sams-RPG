@@ -10,12 +10,12 @@ namespace RPG.Characters {
 	public class Player : MonoBehaviour, IDamageable {
 
 	    [SerializeField] float maxHealthPoints = 100f;
-	    [SerializeField] float damagePerHit = 10f;
+	    [SerializeField] float baseDamage = 10f;
 		[SerializeField] Weapon weaponInUse = null;
 		[SerializeField] AnimatorOverrideController animatorOverrideController = null;
 
 		// Temporarily serialized for dubbing
-		[SerializeField] SpecialAbilityConfig[] abilities;
+		[SerializeField] SpecialAbility[] abilities;
 
 		Animator animator;
 	    float currentHealthPoints;
@@ -74,16 +74,19 @@ namespace RPG.Characters {
 
 		private void AttemtSpecialAbility (int abilityIndex, Enemy enemy) {
 			var energyComponent = GetComponent<Energy> ();
-			if (energyComponent.IsEnergyAvailable (10f)) { // TODO Read from scriptable object
-				energyComponent.ConsumeEnergy (10f);
-				abilities [abilityIndex].Use ();
+			var energyCost = abilities [abilityIndex].GetEnergyCost ();
+
+			if (energyComponent.IsEnergyAvailable (energyCost)) {
+				energyComponent.ConsumeEnergy (energyCost);
+				var abilityParams = new AbilityUseParams (enemy, baseDamage);
+				abilities [abilityIndex].Use (abilityParams);
 			}
 		}
 
 		void AttackTarget (Enemy enemy) {
 			if (Time.time - lastHitTime > weaponInUse.GetMinTimeBetweenHits()) {
 				animator.SetTrigger ("Attack"); // TODO Make const
-				enemy.TakeDamage (damagePerHit);
+				enemy.TakeDamage (baseDamage);
 				lastHitTime = Time.time;
 			}
 		} 
