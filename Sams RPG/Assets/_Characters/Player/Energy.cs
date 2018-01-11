@@ -16,7 +16,7 @@ namespace RPG.Characters {
 		}
 
 		public bool IsEnergyAvailable (float amount) {
-			return amount < currentEnergy;
+			return amount <= currentEnergy;
 		}
 
 		public void ConsumeEnergy (float amount) {
