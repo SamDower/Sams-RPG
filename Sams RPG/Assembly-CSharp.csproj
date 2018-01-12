@@ -78,6 +78,7 @@
      <Compile Include="Assets\_Core\SpinMe.cs" />
      <Compile Include="Assets\_Weapons\Projectiles\Projectile.cs" />
      <Compile Include="Assets\_Weapons\Weapon.cs" />
+     <None Include="Assets\Asset Packs - For Students\SimpleFX - Synty\Materials\UnlitVertexColour_Alpha.shader" />
      <None Include="Assets\Water\Water\Shaders\FXWaterPro.shader" />
      <None Include="Assets\_Enviroment\Village\FXWaterPro.shader" />
  <Reference Include="UnityEngine.UI">

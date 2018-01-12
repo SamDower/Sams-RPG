@@ -51,7 +51,7 @@ namespace RPG.Characters {
 	        {
 	            isAttacking = true;
 				float randomDelay = Random.Range (secondsBetweenShots - variationBetweenShots, secondsBetweenShots + variationBetweenShots);
-	            InvokeRepeating("SpawnProjectile", 0f, secondsBetweenShots); // TODO switch to coroutines
+				InvokeRepeating("SpawnProjectile", 0f, randomDelay); // TODO switch to coroutines
 	        }
 	        
 	        if (distanceToPlayer > attackRadius)
