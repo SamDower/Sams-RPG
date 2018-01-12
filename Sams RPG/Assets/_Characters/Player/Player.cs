@@ -15,9 +15,16 @@ namespace RPG.Characters {
 		[SerializeField] Weapon weaponInUse = null;
 		[SerializeField] AnimatorOverrideController animatorOverrideController = null;
 
+		[SerializeField] AudioClip[] damageSounds;
+		[SerializeField] AudioClip[] deathSounds;
+
 		// Temporarily serialized for dubbing
 		[SerializeField] SpecialAbility[] abilities;
 
+		const string DEATH_TRIGGER = "Death";
+		const string ATTACK_TRIGGER = "Attack";
+
+		AudioSource audioSource;
 		Animator animator;
 	    float currentHealthPoints;
 	    CameraRaycaster cameraRaycaster;
@@ -25,27 +32,33 @@ namespace RPG.Characters {
 
 	    public float healthAsPercentage { get { return currentHealthPoints / maxHealthPoints; }}
 
-	    void Start()
-	    {
+	    void Start() {
 			RegisterForMouseClick ();
 			SetCurrentMaxHealth ();
 			PutWeaponInHand ();
 			SetupRuntimeAnimator ();
 			abilities[0].AttackComponentTo (gameObject);
+			audioSource = GetComponent<AudioSource> ();
 	    }
 
 		public void TakeDamage(float damage) {
-			ReduceHealth (damage);
 			bool playerDies = (currentHealthPoints - damage <= 0);
+			ReduceHealth (damage);
+			audioSource.clip = damageSounds[Random.Range(0, damageSounds.Length)];
+			audioSource.Play ();
+
 			if (playerDies) {
 				StartCoroutine (KillPlayer());
 			}
 		}
 
 		IEnumerator KillPlayer() {
-			// TODO play sound
-			// TODO play animation
-			yield return new WaitForSecondsRealtime(2f); // TODO use audio clip length ( + a bit?)
+			animator.SetTrigger (DEATH_TRIGGER);
+
+			audioSource.clip = deathSounds[Random.Range(0, deathSounds.Length)];
+			audioSource.Play ();
+
+			yield return new WaitForSecondsRealtime(audioSource.clip.length);
 			SceneManager.LoadScene(0);
 		}
 
@@ -106,7 +119,7 @@ namespace RPG.Characters {
 
 		void AttackTarget (Enemy enemy) {
 			if (Time.time - lastHitTime > weaponInUse.GetMinTimeBetweenHits()) {
-				animator.SetTrigger ("Attack"); // TODO Make const
+				animator.SetTrigger (ATTACK_TRIGGER);
 				enemy.TakeDamage (baseDamage);
 				lastHitTime = Time.time;
 			}

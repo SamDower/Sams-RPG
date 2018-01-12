@@ -14,6 +14,7 @@ namespace RPG.Characters {
 	    [SerializeField] float attackRadius = 4f;
 	    [SerializeField] float damagePerShot = 9f;
 	    [SerializeField] float secondsBetweenShots = 0.5f;
+		[SerializeField] float variationBetweenShots = 0.1f;
 	    [SerializeField] GameObject projectileToUse;
 	    [SerializeField] GameObject projectileSocket;
 	    [SerializeField] Vector3 aimOffset = new Vector3(0, 1f, 0);
@@ -21,7 +22,7 @@ namespace RPG.Characters {
 	    bool isAttacking = false;
 	    float currentHealthPoints;
 	    AICharacterControl aiCharacterControl = null;
-	    GameObject player = null;
+		Player player = null;
 
 	    public float healthAsPercentage { get { return currentHealthPoints / maxHealthPoints; }}
 
@@ -33,17 +34,23 @@ namespace RPG.Characters {
 
 	    void Start()
 	    {
-	        player = GameObject.FindGameObjectWithTag("Player");
+			player = FindObjectOfType<Player> ();
 	        aiCharacterControl = GetComponent<AICharacterControl>();
 	        currentHealthPoints = maxHealthPoints;
 	    }
 
 	    void Update()
 	    {
+			if (player.healthAsPercentage <= Mathf.Epsilon) { // Is player is Dead
+				StopAllCoroutines (); // Stop Firing
+				Destroy (this); // Stop Enemy Behaviour
+			}
+
 	        float distanceToPlayer = Vector3.Distance(player.transform.position, transform.position);
 	        if (distanceToPlayer <= attackRadius && !isAttacking)
 	        {
 	            isAttacking = true;
+				float randomDelay = Random.Range (secondsBetweenShots - variationBetweenShots, secondsBetweenShots + variationBetweenShots);
 	            InvokeRepeating("SpawnProjectile", 0f, secondsBetweenShots); // TODO switch to coroutines
 	        }
 	        
