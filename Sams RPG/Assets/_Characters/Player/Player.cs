@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.SceneManagement;
 using RPG.CameraUI; // TODO Consider re-wiring
 using RPG.Core;
 using RPG.Weapons;
@@ -33,8 +34,28 @@ namespace RPG.Characters {
 			abilities[0].AttackComponentTo (gameObject);
 	    }
 
+		public void TakeDamage(float damage) {
+			ReduceHealth (damage);
+			bool playerDies = (currentHealthPoints - damage <= 0);
+			if (playerDies) {
+				StartCoroutine (KillPlayer());
+			}
+		}
+
+		IEnumerator KillPlayer() {
+			// TODO play sound
+			// TODO play animation
+			yield return new WaitForSecondsRealtime(2f); // TODO use audio clip length ( + a bit?)
+			SceneManager.LoadScene(0);
+		}
+
+		private void ReduceHealth(float damage) {
+			currentHealthPoints = Mathf.Clamp(currentHealthPoints - damage, 0f, maxHealthPoints);
+		}
+
 		private float SetCurrentMaxHealth () {
 			return currentHealthPoints = maxHealthPoints;
+			// TODO Play Sound
 		}
 
 		private void SetupRuntimeAnimator() {
@@ -95,10 +116,5 @@ namespace RPG.Characters {
 			float distanceToTarget = Vector3.Distance(target.transform.position, transform.position);
 			return distanceToTarget <= weaponInUse.GetMaxAttackRange();
 		}
-
-	    public void TakeDamage(float damage)
-	    {
-	        currentHealthPoints = Mathf.Clamp(currentHealthPoints - damage, 0f, maxHealthPoints);
-	    }
 	}
 }
