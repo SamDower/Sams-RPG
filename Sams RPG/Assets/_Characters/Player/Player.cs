@@ -18,42 +18,66 @@ namespace RPG.Characters {
 		[SerializeField] AudioClip[] damageSounds;
 		[SerializeField] AudioClip[] deathSounds;
 
+		[Range(0.1f,1.0f)] [SerializeField] float critChance = 0.1f;
+		[SerializeField] float critMultiplier = 1.25f;
+
 		// Temporarily serialized for dubbing
-		[SerializeField] SpecialAbility[] abilities;
+		[SerializeField] AbilityConfig[] abilities;
 
 		const string DEATH_TRIGGER = "Death";
 		const string ATTACK_TRIGGER = "Attack";
 
-		AudioSource audioSource;
-		Animator animator;
-	    float currentHealthPoints;
-	    CameraRaycaster cameraRaycaster;
+		Enemy enemy = null;
+		AudioSource audioSource = null;
+		Animator animator = null;
+	    float currentHealthPoints = 0f;
+		CameraRaycaster cameraRaycaster = null;
 	    float lastHitTime = 0f;
 
 	    public float healthAsPercentage { get { return currentHealthPoints / maxHealthPoints; }}
 
-	    void Start() {
+		void Start() {
+			audioSource = GetComponent<AudioSource> ();
+
 			RegisterForMouseClick ();
 			SetCurrentMaxHealth ();
 			PutWeaponInHand ();
 			SetupRuntimeAnimator ();
-			abilities[0].AttackComponentTo (gameObject);
-			audioSource = GetComponent<AudioSource> ();
+			AttachInitialAbilities ();
 	    }
 
-		public void RestoreHealth(float amount) {
-			currentHealthPoints = Mathf.Clamp(currentHealthPoints + amount, 0f, maxHealthPoints);
+		private void AttachInitialAbilities() {
+			for (int abilityIndex = 0; abilityIndex < abilities.Length; abilityIndex++) {
+				abilities [abilityIndex].AttackComponentTo (gameObject);
+			}
+		}
+
+		void Update() {
+			if (healthAsPercentage > Mathf.Epsilon) {
+				ScanForAbilityKeyDown ();
+			}
+		}
+
+		private void ScanForAbilityKeyDown() {
+			for (int keyIndex = 1; keyIndex < abilities.Length; keyIndex++) {
+				if (Input.GetKeyDown (keyIndex.ToString ())) {
+					AttemtSpecialAbility (keyIndex);
+				}
+			}
 		}
 
 		public void TakeDamage(float damage) {
-			bool playerDies = (currentHealthPoints - damage <= 0);
-			ReduceHealth (damage);
+			currentHealthPoints = Mathf.Clamp(currentHealthPoints - damage, 0f, maxHealthPoints);
 			audioSource.clip = damageSounds[Random.Range(0, damageSounds.Length)];
 			audioSource.Play ();
 
-			if (playerDies) {
+			if (currentHealthPoints <= 0) {
 				StartCoroutine (KillPlayer());
 			}
+		}
+
+		public void Heal(float amount) {
+			currentHealthPoints = Mathf.Clamp(currentHealthPoints + amount, 0f, maxHealthPoints);
 		}
 
 		IEnumerator KillPlayer() {
@@ -64,10 +88,6 @@ namespace RPG.Characters {
 
 			yield return new WaitForSecondsRealtime(audioSource.clip.length);
 			SceneManager.LoadScene(0);
-		}
-
-		private void ReduceHealth(float damage) {
-			currentHealthPoints = Mathf.Clamp(currentHealthPoints - damage, 0f, maxHealthPoints);
 		}
 
 		private float SetCurrentMaxHealth () {
@@ -102,15 +122,16 @@ namespace RPG.Characters {
 			cameraRaycaster.onMouseOverEnemy += OnMouseOverEnemy;
 		}
 
-		void OnMouseOverEnemy (Enemy enemy) {
+		void OnMouseOverEnemy (Enemy enemyToSet) {
+			this.enemy = enemyToSet;
 			if (Input.GetMouseButton (0) && IsTargetInRange(enemy.gameObject)) {
-				AttackTarget (enemy);
+				AttackTarget ();
 			} else if (Input.GetMouseButtonDown(1)) {
-				AttemtSpecialAbility(0, enemy);
+				AttemtSpecialAbility(0);
 			}
 		}
 
-		private void AttemtSpecialAbility (int abilityIndex, Enemy enemy) {
+		private void AttemtSpecialAbility (int abilityIndex) {
 			var energyComponent = GetComponent<Energy> ();
 			var energyCost = abilities [abilityIndex].GetEnergyCost ();
 
@@ -121,13 +142,23 @@ namespace RPG.Characters {
 			}
 		}
 
-		void AttackTarget (Enemy enemy) {
+		void AttackTarget () {
 			if (Time.time - lastHitTime > weaponInUse.GetMinTimeBetweenHits()) {
 				animator.SetTrigger (ATTACK_TRIGGER);
-				enemy.TakeDamage (baseDamage);
+				enemy.TakeDamage (CalculateDamage());
 				lastHitTime = Time.time;
 			}
-		} 
+		}
+
+		private float CalculateDamage() {
+			bool isCriticalHit = Random.Range (0f, 1f) <= critChance;
+			float damageBeforeCrit = baseDamage + weaponInUse.GetAdditionalDamage ();
+			if (isCriticalHit) {
+				return damageBeforeCrit * critMultiplier;
+				// TODO Partical? Floating text coming off it?
+			}
+			return damageBeforeCrit;
+		}
 
 		private bool IsTargetInRange(GameObject target) {
 			float distanceToTarget = Vector3.Distance(target.transform.position, transform.position);

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace RPG.Characters {
 	[CreateAssetMenu(menuName = ("RPG/Special Ability/AOE"))]
-	public class AOEConfig : SpecialAbility {
+	public class AOEConfig : AbilityConfig {
 
 		[Header("AOE Specific")]
 		[SerializeField] float radius = 5f;

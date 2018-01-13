@@ -6,20 +6,25 @@ using RPG.Core;
 namespace RPG.Characters {
 	public class SelfHealBehaviour : MonoBehaviour, ISpecialAbility {
 
-		SelfHealConfig config;
+
+		Player player = null;
+		SelfHealConfig config = null;
+		AudioSource audioSource = null;
+
+		void Start() {
+			player = GetComponent<Player> ();
+			audioSource = GetComponent<AudioSource> ();
+		}
 
 		public void SetConfig(SelfHealConfig configToSet) {
 			this.config = configToSet;
 		}
 
 		public void Use(AbilityUseParams useParams) {
-			Heal ();
+			audioSource.clip = config.GetAudioClip ();
+			audioSource.Play ();
+			player.Heal (config.GetHealthGain ());
 			PlayParticleEffect ();
-		}
-
-		private void Heal() {
-			Player player = GetComponent<Player> ();
-			player.RestoreHealth (config.GetHealthGain ());
 		}
 
 		private void PlayParticleEffect () {
