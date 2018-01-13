@@ -37,7 +37,7 @@ namespace RPG.Characters {
 
 		private void PlayParticleEffect () {
 			ParticleSystem myParticalSystem;
-			var prefab = Instantiate (config.GetParticlePrefab (), transform.position, Quaternion.identity, transform);
+			var prefab = Instantiate (config.GetParticlePrefab (), transform.position, config.GetParticlePrefab ().transform.rotation, transform);
 			myParticalSystem = prefab.GetComponent<ParticleSystem> ();
 			myParticalSystem.Play ();
 			Destroy (prefab, 10f); // TODO destoy after duration

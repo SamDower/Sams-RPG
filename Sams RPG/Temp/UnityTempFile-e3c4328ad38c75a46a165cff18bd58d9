@@ -106,9 +106,11 @@ Assets/_Characters/Player/PlayerHealthBar.cs
 Assets/_Characters/Player/PlayerMovement.cs
 "Assets/_Characters/Special Abilities/AOE/AOEBehaviour.cs"
 "Assets/_Characters/Special Abilities/AOE/AOEConfig.cs"
+"Assets/_Characters/Special Abilities/AbilityConfig.cs"
 "Assets/_Characters/Special Abilities/Power Attack/PowerAttackBehaviour.cs"
 "Assets/_Characters/Special Abilities/Power Attack/PowerAttackConfig.cs"
-"Assets/_Characters/Special Abilities/SpecialAbility.cs"
+"Assets/_Characters/Special Abilities/Self Heal/SelfHealBehaviour.cs"
+"Assets/_Characters/Special Abilities/Self Heal/SelfHealConfig.cs"
 Assets/_Characters/ThirdPersonCharacter.cs
 Assets/_Characters/ThirdPersonUserControl.cs
 Assets/_Core/AudioTrigger.cs
