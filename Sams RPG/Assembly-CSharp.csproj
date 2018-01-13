@@ -68,6 +68,7 @@
      <Compile Include="Assets\_Characters\Player\PlayerMovement.cs" />
      <Compile Include="Assets\_Characters\Special Abilities\AOE\AOEBehaviour.cs" />
      <Compile Include="Assets\_Characters\Special Abilities\AOE\AOEConfig.cs" />
+     <Compile Include="Assets\_Characters\Special Abilities\AbilityBehaviour.cs" />
      <Compile Include="Assets\_Characters\Special Abilities\AbilityConfig.cs" />
      <Compile Include="Assets\_Characters\Special Abilities\Power Attack\PowerAttackBehaviour.cs" />
      <Compile Include="Assets\_Characters\Special Abilities\Power Attack\PowerAttackConfig.cs" />
