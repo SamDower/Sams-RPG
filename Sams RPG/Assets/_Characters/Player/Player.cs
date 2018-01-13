@@ -41,6 +41,10 @@ namespace RPG.Characters {
 			audioSource = GetComponent<AudioSource> ();
 	    }
 
+		public void RestoreHealth(float amount) {
+			currentHealthPoints = Mathf.Clamp(currentHealthPoints + amount, 0f, maxHealthPoints);
+		}
+
 		public void TakeDamage(float damage) {
 			bool playerDies = (currentHealthPoints - damage <= 0);
 			ReduceHealth (damage);

@@ -13,6 +13,11 @@ namespace RPG.Characters {
 		}
 
 		public void Use(AbilityUseParams useParams) {
+			DealRadialDamage (useParams);
+			PlayParticleEffect ();
+		}
+
+		private void DealRadialDamage(AbilityUseParams useParams) {
 			// Static SphereCast For Targets
 			RaycastHit[] hits = Physics.SphereCastAll (
 				transform.position, 
@@ -27,6 +32,14 @@ namespace RPG.Characters {
 					damageable.TakeDamage (damageToDeal);
 				}
 			}
+		}
+
+		private void PlayParticleEffect () {
+			ParticleSystem myParticalSystem;
+			var prefab = Instantiate (config.GetParticlePrefab (), transform.position, Quaternion.identity, transform);
+			myParticalSystem = prefab.GetComponent<ParticleSystem> ();
+			myParticalSystem.Play ();
+			Destroy (prefab, 10f); // TODO destoy after duration
 		}
 	}
 }
