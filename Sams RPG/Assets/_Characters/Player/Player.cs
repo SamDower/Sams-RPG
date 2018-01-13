@@ -5,14 +5,13 @@ using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
 using RPG.CameraUI; // TODO Consider re-wiring
 using RPG.Core;
-using RPG.Weapons;
 
 namespace RPG.Characters {
 	public class Player : MonoBehaviour, IDamageable {
 
 	    [SerializeField] float maxHealthPoints = 100f;
 	    [SerializeField] float baseDamage = 10f;
-		[SerializeField] Weapon weaponInUse = null;
+		[SerializeField] Weapon currentWeaponConfig = null;
 		[SerializeField] AnimatorOverrideController animatorOverrideController = null;
 
 		[SerializeField] AudioClip[] damageSounds;
@@ -26,6 +25,7 @@ namespace RPG.Characters {
 
 		const string DEATH_TRIGGER = "Death";
 		const string ATTACK_TRIGGER = "Attack";
+		const string DEFAULT_ATTACK = "DEFAULT";
 
 		Enemy enemy = null;
 		AudioSource audioSource = null;
@@ -33,6 +33,7 @@ namespace RPG.Characters {
 	    float currentHealthPoints = 0f;
 		CameraRaycaster cameraRaycaster = null;
 	    float lastHitTime = 0f;
+		GameObject weaponObject;
 
 	    public float healthAsPercentage { get { return currentHealthPoints / maxHealthPoints; }}
 
@@ -41,8 +42,8 @@ namespace RPG.Characters {
 
 			RegisterForMouseClick ();
 			SetCurrentMaxHealth ();
-			PutWeaponInHand ();
-			SetupRuntimeAnimator ();
+			PutWeaponInHand (currentWeaponConfig);
+			SetAttackAnimation ();
 			AttachInitialAbilities ();
 	    }
 
@@ -50,6 +51,16 @@ namespace RPG.Characters {
 			for (int abilityIndex = 0; abilityIndex < abilities.Length; abilityIndex++) {
 				abilities [abilityIndex].AttackComponentTo (gameObject);
 			}
+		}
+
+		public void PutWeaponInHand(Weapon weaponToUse) {
+			currentWeaponConfig = weaponToUse;
+			var weaponPrefab = weaponToUse.GetWeaponPrefab ();
+			GameObject weaponSocket = RequestDominantHand ();
+			Destroy (weaponObject);
+			weaponObject = Instantiate (weaponPrefab, weaponSocket.transform);
+			weaponObject.transform.localPosition = currentWeaponConfig.gripTransform.localPosition;
+			weaponObject.transform.localRotation = currentWeaponConfig.gripTransform.localRotation;
 		}
 
 		void Update() {
@@ -95,18 +106,10 @@ namespace RPG.Characters {
 			// TODO Play Sound
 		}
 
-		private void SetupRuntimeAnimator() {
+		private void SetAttackAnimation() {
 			animator = GetComponent<Animator> ();
 			animator.runtimeAnimatorController = animatorOverrideController;
-			animatorOverrideController ["DEFAULT"] = weaponInUse.GetAnimClip (); // TODO Remove const
-		}
-
-		private void PutWeaponInHand() {
-			var weaponPrefab = weaponInUse.GetWeaponPrefab ();
-			GameObject weaponSocket = RequestDominantHand ();
-			var weapon = Instantiate (weaponPrefab, weaponSocket.transform);
-			weapon.transform.localPosition = weaponInUse.gripTransform.localPosition;
-			weapon.transform.localRotation = weaponInUse.gripTransform.localRotation;
+			animatorOverrideController [DEFAULT_ATTACK] = currentWeaponConfig.GetAnimClip ();
 		}
 
 		private GameObject RequestDominantHand() {
@@ -143,7 +146,8 @@ namespace RPG.Characters {
 		}
 
 		void AttackTarget () {
-			if (Time.time - lastHitTime > weaponInUse.GetMinTimeBetweenHits()) {
+			if (Time.time - lastHitTime > currentWeaponConfig.GetMinTimeBetweenHits()) {
+				SetAttackAnimation ();
 				animator.SetTrigger (ATTACK_TRIGGER);
 				enemy.TakeDamage (CalculateDamage());
 				lastHitTime = Time.time;
@@ -152,7 +156,7 @@ namespace RPG.Characters {
 
 		private float CalculateDamage() {
 			bool isCriticalHit = Random.Range (0f, 1f) <= critChance;
-			float damageBeforeCrit = baseDamage + weaponInUse.GetAdditionalDamage ();
+			float damageBeforeCrit = baseDamage + currentWeaponConfig.GetAdditionalDamage ();
 			if (isCriticalHit) {
 				return damageBeforeCrit * critMultiplier;
 				// TODO Partical? Floating text coming off it?
@@ -162,7 +166,7 @@ namespace RPG.Characters {
 
 		private bool IsTargetInRange(GameObject target) {
 			float distanceToTarget = Vector3.Distance(target.transform.position, transform.position);
-			return distanceToTarget <= weaponInUse.GetMaxAttackRange();
+			return distanceToTarget <= currentWeaponConfig.GetMaxAttackRange();
 		}
 	}
 }
