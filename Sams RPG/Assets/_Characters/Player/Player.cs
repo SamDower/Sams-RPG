@@ -9,7 +9,7 @@ using RPG.CameraUI;
 using RPG.Core;
 
 namespace RPG.Characters {
-	public class Player : MonoBehaviour, IDamageable {
+	public class Player : MonoBehaviour {
 
 	    [SerializeField] float baseDamage = 10f;
 		[SerializeField] Weapon currentWeaponConfig = null;
@@ -31,10 +31,7 @@ namespace RPG.Characters {
 		GameObject weaponObject;
 
 		void Start() {
-			audioSource = GetComponent<AudioSource> ();
-
 			RegisterForMouseClick ();
-			SetCurrentMaxHealth ();
 			PutWeaponInHand (currentWeaponConfig);
 			SetAttackAnimation ();
 			AttachInitialAbilities ();
@@ -57,7 +54,8 @@ namespace RPG.Characters {
 		}
 
 		void Update() {
-			if (healthAsPercentage > Mathf.Epsilon) {
+			var healthPercentage = GetComponent<HealthSystem>().healthAsPercentage;
+			if (healthPercentage > Mathf.Epsilon) {
 				ScanForAbilityKeyDown ();
 			}
 		}
@@ -68,11 +66,6 @@ namespace RPG.Characters {
 					AttemtSpecialAbility (keyIndex);
 				}
 			}
-		}
-
-		private float SetCurrentMaxHealth () {
-			return currentHealthPoints = maxHealthPoints;
-			// TODO Play Sound
 		}
 
 		private void SetAttackAnimation() {
@@ -118,7 +111,6 @@ namespace RPG.Characters {
 			if (Time.time - lastHitTime > currentWeaponConfig.GetMinTimeBetweenHits()) {
 				SetAttackAnimation ();
 				animator.SetTrigger (ATTACK_TRIGGER);
-				enemy.TakeDamage (CalculateDamage());
 				lastHitTime = Time.time;
 			}
 		}

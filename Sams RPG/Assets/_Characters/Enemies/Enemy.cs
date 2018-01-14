@@ -5,7 +5,7 @@ using UnityStandardAssets.Characters.ThirdPerson;
 using RPG.Core;
 
 namespace RPG.Characters {
-	public class Enemy : MonoBehaviour, IDamageable {
+	public class Enemy : MonoBehaviour, IDamageable { // TODO Remove interface
 
 	    [SerializeField] float chaseRadius = 6f;
 
@@ -23,16 +23,13 @@ namespace RPG.Characters {
 	    void Start()
 	    {
 			player = FindObjectOfType<Player> ();
-	        currentHealth = maxHealthPoints;
 	    }
+
+		public void TakeDamage(float amount) { // TODO Remove
+		}
 
 	    void Update()
 	    {
-			if (player.healthAsPercentage <= Mathf.Epsilon) { // Is player is Dead
-				StopAllCoroutines (); // Stop Firing
-				Destroy (this); // Stop Enemy Behaviour
-			}
-
 	        float distanceToPlayer = Vector3.Distance(player.transform.position, transform.position);
 	        if (distanceToPlayer <= attackRadius && !isAttacking)
 	        {
