@@ -100,5 +100,11 @@ namespace RPG.Characters {
 				rb.velocity = velocity;
 			}
 		}
+
+
+
+		public void Kill() {
+			// TODO Allow death signalling
+		}
 	}
 }
