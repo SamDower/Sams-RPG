@@ -57,15 +57,14 @@
      <Compile Include="Assets\Water\Water\Scripts\WaterTile.cs" />
      <Compile Include="Assets\_CameraUI\CameraFollow.cs" />
      <Compile Include="Assets\_CameraUI\CameraRaycaster.cs" />
-     <Compile Include="Assets\_Characters\AICharacterControl.cs" />
      <Compile Include="Assets\_Characters\Enemies\Enemy.cs" />
      <Compile Include="Assets\_Characters\Enemies\EnemyHealthBar.cs" />
      <Compile Include="Assets\_Characters\Enemies\EnemyUI.cs" />
+     <Compile Include="Assets\_Characters\Player\CharacterMovement.cs" />
      <Compile Include="Assets\_Characters\Player\DominantHand.cs" />
      <Compile Include="Assets\_Characters\Player\Energy.cs" />
      <Compile Include="Assets\_Characters\Player\Player.cs" />
      <Compile Include="Assets\_Characters\Player\PlayerHealthBar.cs" />
-     <Compile Include="Assets\_Characters\Player\PlayerMovement.cs" />
      <Compile Include="Assets\_Characters\ThirdPersonCharacter.cs" />
      <Compile Include="Assets\_Characters\ThirdPersonUserControl.cs" />
      <Compile Include="Assets\_Characters\_Special Abilities\AOE\AOEBehaviour.cs" />

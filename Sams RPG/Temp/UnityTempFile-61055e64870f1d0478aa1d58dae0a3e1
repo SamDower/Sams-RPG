@@ -95,29 +95,30 @@ Assets/Water/Water/Scripts/WaterBase.cs
 Assets/Water/Water/Scripts/WaterTile.cs
 Assets/_CameraUI/CameraFollow.cs
 Assets/_CameraUI/CameraRaycaster.cs
-Assets/_Characters/AICharacterControl.cs
 Assets/_Characters/Enemies/Enemy.cs
 Assets/_Characters/Enemies/EnemyHealthBar.cs
 Assets/_Characters/Enemies/EnemyUI.cs
+Assets/_Characters/Player/CharacterMovement.cs
 Assets/_Characters/Player/DominantHand.cs
 Assets/_Characters/Player/Energy.cs
 Assets/_Characters/Player/Player.cs
 Assets/_Characters/Player/PlayerHealthBar.cs
-Assets/_Characters/Player/PlayerMovement.cs
-"Assets/_Characters/Special Abilities/AOE/AOEBehaviour.cs"
-"Assets/_Characters/Special Abilities/AOE/AOEConfig.cs"
-"Assets/_Characters/Special Abilities/AbilityConfig.cs"
-"Assets/_Characters/Special Abilities/Power Attack/PowerAttackBehaviour.cs"
-"Assets/_Characters/Special Abilities/Power Attack/PowerAttackConfig.cs"
-"Assets/_Characters/Special Abilities/Self Heal/SelfHealBehaviour.cs"
-"Assets/_Characters/Special Abilities/Self Heal/SelfHealConfig.cs"
 Assets/_Characters/ThirdPersonCharacter.cs
 Assets/_Characters/ThirdPersonUserControl.cs
+"Assets/_Characters/_Special Abilities/AOE/AOEBehaviour.cs"
+"Assets/_Characters/_Special Abilities/AOE/AOEConfig.cs"
+"Assets/_Characters/_Special Abilities/AbilityBehaviour.cs"
+"Assets/_Characters/_Special Abilities/AbilityConfig.cs"
+"Assets/_Characters/_Special Abilities/Power Attack/PowerAttackBehaviour.cs"
+"Assets/_Characters/_Special Abilities/Power Attack/PowerAttackConfig.cs"
+"Assets/_Characters/_Special Abilities/Self Heal/SelfHealBehaviour.cs"
+"Assets/_Characters/_Special Abilities/Self Heal/SelfHealConfig.cs"
+Assets/_Characters/_Weapons/Projectiles/Projectile.cs
+Assets/_Characters/_Weapons/Weapon.cs
+Assets/_Characters/_Weapons/WeaponPickup.cs
 Assets/_Core/AudioTrigger.cs
 Assets/_Core/IDamageable.cs
 Assets/_Core/SpinMe.cs
-Assets/_Weapons/Projectiles/Projectile.cs
-Assets/_Weapons/Weapon.cs
 -r:"C:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity\System.Runtime.Serialization.dll"
 -r:"C:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity\System.Xml.Linq.dll"
 -r:"C:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity\UnityScript.dll"
