@@ -65,7 +65,6 @@
      <Compile Include="Assets\_Characters\Player\Energy.cs" />
      <Compile Include="Assets\_Characters\Player\Player.cs" />
      <Compile Include="Assets\_Characters\Player\PlayerHealthBar.cs" />
-     <Compile Include="Assets\_Characters\ThirdPersonCharacter.cs" />
      <Compile Include="Assets\_Characters\ThirdPersonUserControl.cs" />
      <Compile Include="Assets\_Characters\_Special Abilities\AOE\AOEBehaviour.cs" />
      <Compile Include="Assets\_Characters\_Special Abilities\AOE\AOEConfig.cs" />

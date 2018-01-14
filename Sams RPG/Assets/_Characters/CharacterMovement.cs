@@ -6,26 +6,28 @@ using RPG.CameraUI;
 
 namespace RPG.Characters {
 	[RequireComponent(typeof(NavMeshAgent))]
-	[RequireComponent(typeof (ThirdPersonCharacter))]
 	public class CharacterMovement : MonoBehaviour {
-		
+
+		[SerializeField] float movingTurnSpeed = 360;
+		[SerializeField] float stationaryTurnSpeed = 180;
+		[SerializeField] float moveThreshold = 1f;
 		[SerializeField] float stoppingDistance = 1f;
 		[SerializeField] float moveSpeedMultiplier = 1f;
-		// TODO Consider anim speed multiplier
+		[SerializeField] float animSpeedMultiplier = 1f;
 
-		ThirdPersonCharacter character;
 	    Vector3 clickPoint;
-	    GameObject walkTarget;
 		NavMeshAgent agent;
 		Animator animator;
 		Rigidbody rb;
 
+		float turnAmount;
+		float forwardAmount;
+
 	    void Start() {
 			animator = GetComponent<Animator>();
-			rb = GetComponent<Rigidbody> ();
 
-	        character = GetComponent<ThirdPersonCharacter>();
-	        walkTarget = new GameObject("walkTarget");
+			rb = GetComponent<Rigidbody> ();
+			rb.constraints = RigidbodyConstraints.FreezeRotation;
 
 			agent = GetComponent<NavMeshAgent> ();
 			agent.updateRotation = false;
@@ -39,11 +41,41 @@ namespace RPG.Characters {
 
 		void Update() {
 			if (agent.remainingDistance > agent.stoppingDistance) {
-				character.Move (agent.desiredVelocity);
+				Move (agent.desiredVelocity);
 			} else {
-				character.Move (Vector3.zero);
+				Move (Vector3.zero);
 			}
 		}
+
+
+
+		public void Move(Vector3 movement) {
+			SetForwardAndTurn (movement);
+			ApplyExtraTurnRotation ();
+			UpdateAnimator();
+		}
+
+		void SetForwardAndTurn (Vector3 movement) {
+			if (movement.magnitude > moveThreshold) {
+				movement.Normalize ();
+			}
+			var localMove = transform.InverseTransformDirection (movement);
+			turnAmount = Mathf.Atan2 (localMove.x, localMove.z);
+			forwardAmount = localMove.z;
+		}
+
+		void UpdateAnimator() {
+			animator.SetFloat("Forward", forwardAmount, 0.1f, Time.deltaTime);
+			animator.SetFloat ("Turn", turnAmount, 0.1f, Time.deltaTime);
+			animator.speed = animSpeedMultiplier;
+		}
+
+		void ApplyExtraTurnRotation() {
+			float turnSpeed = Mathf.Lerp(stationaryTurnSpeed, movingTurnSpeed, forwardAmount);
+			transform.Rotate(0, turnAmount * turnSpeed * Time.deltaTime, 0);
+		}
+
+
 
 		void OnMouseOverPotentiallyWalkable(Vector3 destination) {
 			if (Input.GetMouseButton (0)) {
