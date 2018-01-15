@@ -32,13 +32,13 @@ namespace RPG.Characters {
 		[SerializeField] float navMeshAgentSteeringSpeed = 1.0f;
 		[SerializeField] float navMeshAgentStoppingDistance = 1.3f;
 
-	    Vector3 clickPoint;
 		NavMeshAgent navMeshAgent;
 		Animator animator;
 		Rigidbody rb;
 
 		float turnAmount;
 		float forwardAmount;
+		bool isAlive = true;
 
 		void Awake() {
 			AddRequiredComponents ();
@@ -68,21 +68,19 @@ namespace RPG.Characters {
 			navMeshAgent.updatePosition = true;
 		}
 
-	    void Start() {
-			CameraRaycaster cameraRaycaster = Camera.main.GetComponent<CameraRaycaster>();
-			cameraRaycaster.onMouseOverPotentiallyWalkable += OnMouseOverPotentiallyWalkable;
-			cameraRaycaster.onMouseOverEnemy += OnMouseOverEnemy;
-	    }
-
 		void Update() {
-			if (navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance) {
+			if (navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance && isAlive) {
 				Move (navMeshAgent.desiredVelocity);
 			} else {
 				Move (Vector3.zero);
 			}
 		}
 
-		public void Move(Vector3 movement) {
+		public void SetDestination(Vector3 worldPos) {
+			navMeshAgent.destination = worldPos;
+		}
+
+		void Move(Vector3 movement) {
 			SetForwardAndTurn (movement);
 			ApplyExtraTurnRotation ();
 			UpdateAnimator();
@@ -108,18 +106,6 @@ namespace RPG.Characters {
 			transform.Rotate(0, turnAmount * turnSpeed * Time.deltaTime, 0);
 		}
 
-		void OnMouseOverPotentiallyWalkable(Vector3 destination) {
-			if (Input.GetMouseButton (0)) {
-				navMeshAgent.SetDestination (destination);
-			}
-		}
-
-		void OnMouseOverEnemy (Enemy enemy) {
-			if (Input.GetMouseButton (0) || Input.GetMouseButtonDown(1)) {
-				navMeshAgent.SetDestination (enemy.transform.position);
-			}
-		}
-
 		void OnAnimatorMove() {
 			// we implement this function to override the default root motion.
 			// this allows us to modify the positional speed before it's applied.
@@ -133,7 +119,7 @@ namespace RPG.Characters {
 		}
 
 		public void Kill() {
-			// TODO Allow death signalling
+			isAlive = false;
 		}
 	}
 }

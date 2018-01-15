@@ -1,15 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.SceneManagement;
-
-// TODO Consider re-wiring
 using RPG.CameraUI; 
-using RPG.Core;
 
+
+// TODO Extract weapon system
 namespace RPG.Characters {
-	public class Player : MonoBehaviour {
+	public class PlayerMovement : MonoBehaviour {
 
 	    [SerializeField] float baseDamage = 10f;
 		[SerializeField] Weapon currentWeaponConfig = null;
@@ -27,15 +23,24 @@ namespace RPG.Characters {
 		CameraRaycaster cameraRaycaster = null;
 	    float lastHitTime = 0f;
 		GameObject weaponObject;
+		Character character;
 
 		void Start() {
+			character = GetComponent<Character> ();
 			abilities = GetComponent<SpecialAbilities> ();
 
-			RegisterForMouseClick ();
-			PutWeaponInHand (currentWeaponConfig);
-			SetAttackAnimation ();
+			RegisterForMouseEvents ();
+			PutWeaponInHand (currentWeaponConfig); // TODO Move to WeaponSystem
+			SetAttackAnimation (); // TODO Move to WeaponSystem
 	    }
 
+		void RegisterForMouseEvents () {
+			cameraRaycaster = FindObjectOfType<CameraRaycaster> ();
+			cameraRaycaster.onMouseOverEnemy += OnMouseOverEnemy;
+			cameraRaycaster.onMouseOverPotentiallyWalkable += OnMouseOverPotentiallyWalkable;
+		}
+
+		// TODO Extract
 		public void PutWeaponInHand(Weapon weaponToUse) {
 			currentWeaponConfig = weaponToUse;
 			var weaponPrefab = weaponToUse.GetWeaponPrefab ();
@@ -47,10 +52,7 @@ namespace RPG.Characters {
 		}
 
 		void Update() {
-			var healthPercentage = GetComponent<HealthSystem>().healthAsPercentage;
-			if (healthPercentage > Mathf.Epsilon) {
-				ScanForAbilityKeyDown ();
-			}
+			ScanForAbilityKeyDown ();
 		}
 
 		private void ScanForAbilityKeyDown() {
@@ -61,23 +63,10 @@ namespace RPG.Characters {
 			}
 		}
 
-		private void SetAttackAnimation() {
-			animator = GetComponent<Animator> ();
-			animator.runtimeAnimatorController = animatorOverrideController;
-			animatorOverrideController [DEFAULT_ATTACK] = currentWeaponConfig.GetAnimClip ();
-		}
-
-		private GameObject RequestDominantHand() {
-			var dominantHands = GetComponentsInChildren<DominantHand> ();
-			int numberOfDominantHands = dominantHands.Length;
-			Assert.IsFalse (numberOfDominantHands <= 0, "No Dominant Hand Found On Player, ADD ONE!");
-			Assert.IsFalse (numberOfDominantHands > 1, "Multiple No Dominant Hands Found On Player, REMOVE SOME!");
-			return dominantHands [0].gameObject;
-		}
-
-		void RegisterForMouseClick () {
-			cameraRaycaster = FindObjectOfType<CameraRaycaster> ();
-			cameraRaycaster.onMouseOverEnemy += OnMouseOverEnemy;
+		void OnMouseOverPotentiallyWalkable(Vector3 destination) {
+			if (Input.GetMouseButton (0)) {
+				character.SetDestination (destination);
+			}
 		}
 
 		void OnMouseOverEnemy (Enemy enemyToSet) {
@@ -89,6 +78,23 @@ namespace RPG.Characters {
 			}
 		}
 
+		// TODO Extract
+		private void SetAttackAnimation() {
+			animator = GetComponent<Animator> ();
+			animator.runtimeAnimatorController = animatorOverrideController;
+			animatorOverrideController [DEFAULT_ATTACK] = currentWeaponConfig.GetAnimClip ();
+		}
+
+		// TODO Extract
+		private GameObject RequestDominantHand() {
+			var dominantHands = GetComponentsInChildren<DominantHand> ();
+			int numberOfDominantHands = dominantHands.Length;
+			Assert.IsFalse (numberOfDominantHands <= 0, "No Dominant Hand Found On Player, ADD ONE!");
+			Assert.IsFalse (numberOfDominantHands > 1, "Multiple No Dominant Hands Found On Player, REMOVE SOME!");
+			return dominantHands [0].gameObject;
+		}
+
+		// TODO Use Coroutines
 		void AttackTarget () {
 			if (Time.time - lastHitTime > currentWeaponConfig.GetMinTimeBetweenHits()) {
 				SetAttackAnimation ();
@@ -97,7 +103,8 @@ namespace RPG.Characters {
 			}
 		}
 
-		private float CalculateDamage() {
+		// TODO Extract
+		float CalculateDamage() {
 			bool isCriticalHit = Random.Range (0f, 1f) <= critChance;
 			float damageBeforeCrit = baseDamage + currentWeaponConfig.GetAdditionalDamage ();
 			if (isCriticalHit) {
@@ -107,7 +114,8 @@ namespace RPG.Characters {
 			return damageBeforeCrit;
 		}
 
-		private bool IsTargetInRange(GameObject target) {
+		// TODO Extract?
+		bool IsTargetInRange(GameObject target) {
 			float distanceToTarget = Vector3.Distance(target.transform.position, transform.position);
 			return distanceToTarget <= currentWeaponConfig.GetMaxAttackRange();
 		}
