@@ -6,13 +6,13 @@ using RPG.Core;
 namespace RPG.Characters {
 	public class AOEBehaviour : AbilityBehaviour {
 		
-		public override void Use(AbilityUseParams useParams) {
-			DealRadialDamage (useParams);
+		public override void Use(GameObject target) {
+			DealRadialDamage ();
 			PlayAbilitySound ();
 			PlayParticleEffect ();
 		}
 
-		private void DealRadialDamage(AbilityUseParams useParams) {
+		private void DealRadialDamage() {
 			// Static SphereCast For Targets
 			RaycastHit[] hits = Physics.SphereCastAll (
 				transform.position, 
@@ -22,10 +22,10 @@ namespace RPG.Characters {
 			);
 
 			foreach (RaycastHit hit in hits) {
-				var damageable = hit.collider.gameObject.GetComponent<IDamageable> ();
+				var damageable = hit.collider.gameObject.GetComponent<HealthSystem> ();
 				bool hitPlayer = hit.collider.gameObject.GetComponent<Player> ();
 				if (damageable != null && !hitPlayer) {
-					float damageToDeal = useParams.baseDamage + (config as AOEConfig).GetDamageToEachTarget ();
+					float damageToDeal = (config as AOEConfig).GetDamageToEachTarget ();
 					damageable.TakeDamage (damageToDeal);
 				}
 			}

@@ -25,6 +25,8 @@ namespace RPG.Characters {
 			return projectileSpeed;
 		}
 
+		// TODO Re-impliment
+		/*
 	    void OnCollisionEnter(Collision collision)
 	    {
 			if (shooter && collision.gameObject.layer != shooter.layer) {
@@ -36,5 +38,6 @@ namespace RPG.Characters {
 
 			Destroy (gameObject, DESTROY_DELAY);
 	    }
+	    */
 	}
 }

@@ -5,7 +5,7 @@ using UnityStandardAssets.Characters.ThirdPerson;
 using RPG.Core;
 
 namespace RPG.Characters {
-	public class Enemy : MonoBehaviour, IDamageable { // TODO Remove interface
+	public class Enemy : MonoBehaviour {
 
 	    [SerializeField] float chaseRadius = 6f;
 

@@ -5,6 +5,7 @@ using UnityEngine.AI;
 using RPG.CameraUI; 
 
 namespace RPG.Characters {
+	[SelectionBase]
 	[RequireComponent(typeof(NavMeshAgent))]
 	public class CharacterMovement : MonoBehaviour {
 

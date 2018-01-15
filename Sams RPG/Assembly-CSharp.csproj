@@ -77,7 +77,6 @@
      <Compile Include="Assets\_Characters\_Weapons\Weapon.cs" />
      <Compile Include="Assets\_Characters\_Weapons\WeaponPickup.cs" />
      <Compile Include="Assets\_Core\AudioTrigger.cs" />
-     <Compile Include="Assets\_Core\IDamageable.cs" />
      <Compile Include="Assets\_Core\SpinMe.cs" />
      <None Include="Assets\Asset Packs - For Students\SimpleFX - Synty\Materials\UnlitVertexColour_Alpha.shader" />
      <None Include="Assets\Water\Water\Shaders\FXWaterPro.shader" />

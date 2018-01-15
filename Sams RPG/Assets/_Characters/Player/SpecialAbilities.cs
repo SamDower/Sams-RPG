@@ -10,7 +10,7 @@ namespace RPG.Characters {
 		[SerializeField] Image energybar = null;
 		[SerializeField] float maxEnergy = 100f;
 		[SerializeField] float regenPerSecond = 1f;
-		// TODO out of energy sound
+		[SerializeField] AudioClip outOfEnergySound;
 
 		float currentEnergy;
 		AudioSource audioSource;
@@ -39,14 +39,16 @@ namespace RPG.Characters {
 			}
 		}
 
-		public void AttemtSpecialAbility (int abilityIndex) {
+		public void AttemtSpecialAbility (int abilityIndex, GameObject target = null) {
 			var energyCost = abilities [abilityIndex].GetEnergyCost ();
 
 			if (energyCost <= currentEnergy) {
 				ConsumeEnergy (energyCost);
-				// TODO Use ability
+				abilities [abilityIndex].Use (target);
 			} else {
-				// TODO Play out of energy sound
+				if (!audioSource.isPlaying) { // TODO remove if?
+					audioSource.PlayOneShot (outOfEnergySound);
+				}
 			}
 		}
 
