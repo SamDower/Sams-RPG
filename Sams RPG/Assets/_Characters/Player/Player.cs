@@ -18,30 +18,23 @@ namespace RPG.Characters {
 		[Range(0.1f,1.0f)] [SerializeField] float critChance = 0.1f;
 		[SerializeField] float critMultiplier = 1.25f;
 
-		// Temporarily serialized for dubbing
-		[SerializeField] AbilityConfig[] abilities;
-
 		const string ATTACK_TRIGGER = "Attack";
 		const string DEFAULT_ATTACK = "DEFAULT";
 
 		Enemy enemy = null;
 		Animator animator = null;
+		SpecialAbilities abilities;
 		CameraRaycaster cameraRaycaster = null;
 	    float lastHitTime = 0f;
 		GameObject weaponObject;
 
 		void Start() {
+			abilities = GetComponent<SpecialAbilities> ();
+
 			RegisterForMouseClick ();
 			PutWeaponInHand (currentWeaponConfig);
 			SetAttackAnimation ();
-			AttachInitialAbilities ();
 	    }
-
-		private void AttachInitialAbilities() {
-			for (int abilityIndex = 0; abilityIndex < abilities.Length; abilityIndex++) {
-				abilities [abilityIndex].AttackComponentTo (gameObject);
-			}
-		}
 
 		public void PutWeaponInHand(Weapon weaponToUse) {
 			currentWeaponConfig = weaponToUse;
@@ -61,9 +54,9 @@ namespace RPG.Characters {
 		}
 
 		private void ScanForAbilityKeyDown() {
-			for (int keyIndex = 1; keyIndex < abilities.Length; keyIndex++) {
+			for (int keyIndex = 1; keyIndex < abilities.GetNumberOfAbilities(); keyIndex++) {
 				if (Input.GetKeyDown (keyIndex.ToString ())) {
-					AttemtSpecialAbility (keyIndex);
+					abilities.AttemtSpecialAbility (keyIndex);
 				}
 			}
 		}
@@ -92,18 +85,7 @@ namespace RPG.Characters {
 			if (Input.GetMouseButton (0) && IsTargetInRange(enemy.gameObject)) {
 				AttackTarget ();
 			} else if (Input.GetMouseButtonDown(1)) {
-				AttemtSpecialAbility(0);
-			}
-		}
-
-		private void AttemtSpecialAbility (int abilityIndex) {
-			var energyComponent = GetComponent<Energy> ();
-			var energyCost = abilities [abilityIndex].GetEnergyCost ();
-
-			if (energyComponent.IsEnergyAvailable (energyCost)) {
-				energyComponent.ConsumeEnergy (energyCost);
-				var abilityParams = new AbilityUseParams (enemy, baseDamage);
-				abilities [abilityIndex].Use (abilityParams);
+				abilities.AttemtSpecialAbility(0);
 			}
 		}
 

@@ -20,7 +20,7 @@ MonoBehaviour:
   m_ShowMode: 4
   m_Title: 
   m_RootView: {fileID: 2}
-  m_MinSize: {x: 950, y: 300}
+  m_MinSize: {x: 950, y: 542}
   m_MaxSize: {x: 10000, y: 10000}
 --- !u!114 &2
 MonoBehaviour:
@@ -107,9 +107,9 @@ MonoBehaviour:
     width: 1920
     height: 947
   m_MinSize: {x: 683, y: 492}
-  m_MaxSize: {x: 18008, y: 14042}
+  m_MaxSize: {x: 18004, y: 14042}
   vertical: 0
-  controlID: 127
+  controlID: 51
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -131,9 +131,9 @@ MonoBehaviour:
     width: 1544
     height: 947
   m_MinSize: {x: 406, y: 492}
-  m_MaxSize: {x: 14006, y: 14042}
+  m_MaxSize: {x: 14002, y: 14042}
   vertical: 1
-  controlID: 128
+  controlID: 52
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -157,7 +157,7 @@ MonoBehaviour:
   m_MinSize: {x: 406, y: 221}
   m_MaxSize: {x: 8006, y: 4021}
   vertical: 0
-  controlID: 13
+  controlID: 53
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -230,10 +230,10 @@ MonoBehaviour:
     y: 635
     width: 1544
     height: 312
-  m_MinSize: {x: 336, y: 271}
-  m_MaxSize: {x: 14006, y: 10021}
+  m_MinSize: {x: 332, y: 271}
+  m_MaxSize: {x: 14002, y: 10021}
   vertical: 0
-  controlID: 129
+  controlID: 79
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -279,8 +279,8 @@ MonoBehaviour:
     y: 0
     width: 452
     height: 312
-  m_MinSize: {x: 104, y: 121}
-  m_MaxSize: {x: 4004, y: 4021}
+  m_MinSize: {x: 100, y: 100}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 22}
   m_Panes:
   - {fileID: 22}
@@ -432,9 +432,9 @@ MonoBehaviour:
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -0.7709532, y: -3.8509588, z: -17.747103}
+    m_Target: {x: -3.1480684, y: -3.3569174, z: -19.289574}
     speed: 2
-    m_Value: {x: -0.7709532, y: -3.8509588, z: -17.747103}
+    m_Value: {x: -3.1480684, y: -3.3569174, z: -19.289574}
   m_RenderMode: 0
   m_ValidateTrueMetals: 0
   m_SceneViewState:
@@ -457,13 +457,13 @@ MonoBehaviour:
       speed: 2
       m_Value: 0
   m_Rotation:
-    m_Target: {x: -0.2541657, y: 0.53158075, z: -0.17109887, w: -0.7896498}
+    m_Target: {x: -0.16334271, y: 0.7334218, z: -0.18953851, w: -0.6320498}
     speed: 2
-    m_Value: {x: -0.2541657, y: 0.53158075, z: -0.17109887, w: -0.7896498}
+    m_Value: {x: -0.1633427, y: 0.73342174, z: -0.18953848, w: -0.63204974}
   m_Size:
-    m_Target: 18.76373
+    m_Target: 17.009237
     speed: 2
-    m_Value: 18.76373
+    m_Value: 17.009237
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -613,18 +613,18 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets/_Characters
+    - Assets/_Characters/Player/Sounds
   m_ViewMode: 1
   m_StartGridSize: 65
   m_LastFolders:
-  - Assets/_Characters
+  - Assets/_Characters/Player/Sounds
   m_LastFoldersGridSize: 65
   m_LastProjectPath: E:\Games\Unity Course - RPG\Sams RPG
   m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 94}
-    m_SelectedIDs: b4300000
-    m_LastClickedID: 12468
+    scrollPos: {x: 0, y: 258}
+    m_SelectedIDs: 282c0000
+    m_LastClickedID: 11304
     m_ExpandedIDs: 0000000002250000d2270000142a0000762b0000f22e0000b430000026330000c23800006a3b000056450000e8480000c24e0000de4e000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -680,8 +680,8 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 0
-    m_ExpandedInstanceIDs: 222f0000323d0000d2490000422c0000144b0000
+    m_HadKeyboardFocusLastEvent: 1
+    m_ExpandedInstanceIDs: 222f0000323d0000d2490000422c0000144b0000282a0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 

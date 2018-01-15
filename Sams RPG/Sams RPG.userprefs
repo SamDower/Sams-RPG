@@ -1,13 +1,13 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj" RefactoringSettings.EnableRefactorings="True">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\_Characters\CharacterMovement.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\_Characters\Player\Player.cs">
     <Files>
-      <File FileName="Assets\_Characters\Player\Player.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Characters\_Weapons\Weapon.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Characters\_Weapons\WeaponPickup.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Characters\_Weapons\Projectiles\Projectile.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Characters\ThirdPersonUserControl.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Characters\CharacterMovement.cs" Line="34" Column="32" />
+      <File FileName="Assets\_Characters\Player\Player.cs" Line="57" Column="53" />
+      <File FileName="Assets\_Characters\Enemies\Enemy.cs" Line="28" Column="10" />
+      <File FileName="Assets\_Characters\HealthSystem.cs" Line="50" Column="38" />
+      <File FileName="Assets\_Characters\CharacterMovement.cs" Line="107" Column="34" />
+      <File FileName="Assets\_Core\IDamageable.cs" Line="6" Column="2" />
+      <File FileName="Assets\_Characters\_Special Abilities\Self Heal\SelfHealBehaviour.cs" Line="18" Column="24" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

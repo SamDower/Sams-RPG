@@ -97,13 +97,11 @@ Assets/_CameraUI/CameraFollow.cs
 Assets/_CameraUI/CameraRaycaster.cs
 Assets/_Characters/CharacterMovement.cs
 Assets/_Characters/Enemies/Enemy.cs
-Assets/_Characters/Enemies/EnemyHealthBar.cs
 Assets/_Characters/Enemies/EnemyUI.cs
 Assets/_Characters/HealthSystem.cs
 Assets/_Characters/Player/DominantHand.cs
-Assets/_Characters/Player/Energy.cs
 Assets/_Characters/Player/Player.cs
-Assets/_Characters/Player/PlayerHealthBar.cs
+Assets/_Characters/Player/SpecialAbilities.cs
 Assets/_Characters/ThirdPersonUserControl.cs
 "Assets/_Characters/_Special Abilities/AOE/AOEBehaviour.cs"
 "Assets/_Characters/_Special Abilities/AOE/AOEConfig.cs"
