@@ -64,6 +64,7 @@
      <Compile Include="Assets\_Characters\Player\DominantHand.cs" />
      <Compile Include="Assets\_Characters\Player\PlayerMovement.cs" />
      <Compile Include="Assets\_Characters\Player\SpecialAbilities.cs" />
+     <Compile Include="Assets\_Characters\WaypointContainer.cs" />
      <Compile Include="Assets\_Characters\WeaponSystem.cs" />
      <Compile Include="Assets\_Characters\_Special Abilities\AOE\AOEBehaviour.cs" />
      <Compile Include="Assets\_Characters\_Special Abilities\AOE\AOEConfig.cs" />
