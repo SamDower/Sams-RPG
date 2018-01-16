@@ -1,11 +1,11 @@
 using System;
 using UnityEngine;
-using UnityStandardAssets.Characters.ThirdPerson;
 using UnityEngine.AI;
 using RPG.CameraUI; 
 
 namespace RPG.Characters {
 	[SelectionBase]
+
 	public class Character : MonoBehaviour {
 
 		[Header("Animator")]
@@ -78,6 +78,10 @@ namespace RPG.Characters {
 
 		public void SetDestination(Vector3 worldPos) {
 			navMeshAgent.destination = worldPos;
+		}
+
+		public AnimatorOverrideController GetOverrideController() {
+			return animatorOverrideController;
 		}
 
 		void Move(Vector3 movement) {

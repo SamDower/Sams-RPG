@@ -58,13 +58,13 @@
      <Compile Include="Assets\_CameraUI\CameraFollow.cs" />
      <Compile Include="Assets\_CameraUI\CameraRaycaster.cs" />
      <Compile Include="Assets\_Characters\Character.cs" />
-     <Compile Include="Assets\_Characters\Enemies\Enemy.cs" />
+     <Compile Include="Assets\_Characters\Enemies\EnemyAI.cs" />
      <Compile Include="Assets\_Characters\Enemies\EnemyUI.cs" />
      <Compile Include="Assets\_Characters\HealthSystem.cs" />
      <Compile Include="Assets\_Characters\Player\DominantHand.cs" />
      <Compile Include="Assets\_Characters\Player\PlayerMovement.cs" />
      <Compile Include="Assets\_Characters\Player\SpecialAbilities.cs" />
-     <Compile Include="Assets\_Characters\ThirdPersonUserControl.cs" />
+     <Compile Include="Assets\_Characters\WeaponSystem.cs" />
      <Compile Include="Assets\_Characters\_Special Abilities\AOE\AOEBehaviour.cs" />
      <Compile Include="Assets\_Characters\_Special Abilities\AOE\AOEConfig.cs" />
      <Compile Include="Assets\_Characters\_Special Abilities\AbilityBehaviour.cs" />
@@ -74,7 +74,7 @@
      <Compile Include="Assets\_Characters\_Special Abilities\Self Heal\SelfHealBehaviour.cs" />
      <Compile Include="Assets\_Characters\_Special Abilities\Self Heal\SelfHealConfig.cs" />
      <Compile Include="Assets\_Characters\_Weapons\Projectiles\Projectile.cs" />
-     <Compile Include="Assets\_Characters\_Weapons\Weapon.cs" />
+     <Compile Include="Assets\_Characters\_Weapons\WeaponConfig.cs" />
      <Compile Include="Assets\_Characters\_Weapons\WeaponPickup.cs" />
      <Compile Include="Assets\_Core\AudioTrigger.cs" />
      <Compile Include="Assets\_Core\SpinMe.cs" />
