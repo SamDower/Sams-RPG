@@ -59,10 +59,10 @@
      <Compile Include="Assets\_CameraUI\CameraRaycaster.cs" />
      <Compile Include="Assets\_Characters\Character.cs" />
      <Compile Include="Assets\_Characters\Enemies\EnemyAI.cs" />
-     <Compile Include="Assets\_Characters\Enemies\EnemyUI.cs" />
+     <Compile Include="Assets\_Characters\Enemies\FaceCamera.cs" />
      <Compile Include="Assets\_Characters\HealthSystem.cs" />
      <Compile Include="Assets\_Characters\Player\DominantHand.cs" />
-     <Compile Include="Assets\_Characters\Player\PlayerMovement.cs" />
+     <Compile Include="Assets\_Characters\Player\PlayerControl.cs" />
      <Compile Include="Assets\_Characters\Player\SpecialAbilities.cs" />
      <Compile Include="Assets\_Characters\WaypointContainer.cs" />
      <Compile Include="Assets\_Characters\WeaponSystem.cs" />
