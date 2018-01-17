@@ -12,7 +12,7 @@ namespace RPG.Characters {
 		const string DEFAULT_ATTACK = "DEFAULT";
 
 		float lastHitTime;
-		GameObject target;
+		GameObject target = null;
 		GameObject weaponObject;
 
 		Animator animator;
@@ -29,7 +29,7 @@ namespace RPG.Characters {
 		void Update () {
 			bool targetIsDead;
 			bool targetIsOutOfRange;
-			if (target = null) {
+			if (target == null) {
 				targetIsDead = false;
 				targetIsOutOfRange = false;
 			} else {
