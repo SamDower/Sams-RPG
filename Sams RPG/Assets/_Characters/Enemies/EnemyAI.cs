@@ -7,6 +7,8 @@ namespace RPG.Characters {
 	public class EnemyAI : MonoBehaviour {
 
 	    [SerializeField] float chaseRadius = 6f;
+		[SerializeField] WaypointContainer patrolPath;
+		[SerializeField] float waypointTolerance;
 
 		enum State { idle, patrolling, attacking, chasing }
 		State state = State.idle;
@@ -16,6 +18,7 @@ namespace RPG.Characters {
 
 		float currentWeaponRange;
 		float distanceToPlayer;
+		int nextWaypointIndex = 0;
 
 	    void Start() {
 			player = FindObjectOfType<PlayerMovement> ();
@@ -29,7 +32,7 @@ namespace RPG.Characters {
 
 			if (distanceToPlayer > chaseRadius && state != State.patrolling) {
 				StopAllCoroutines ();
-				state = State.patrolling; // TODO Replace to use coroutine
+				StartCoroutine (Patrol ());
 			}
 			if (distanceToPlayer <= chaseRadius && state != State.chasing) {
 				StopAllCoroutines ();
@@ -40,6 +43,22 @@ namespace RPG.Characters {
 				state = State.attacking; // TODO Replace to use coroutine
 			}
 	    }
+
+		IEnumerator Patrol() {
+			state = State.patrolling;
+			while (true) {
+				Vector3 nextWaypointPos = patrolPath.transform.GetChild (nextWaypointIndex).position;
+				character.SetDestination (nextWaypointPos);
+				CycleWaypointWhenClose (nextWaypointPos);
+				yield return new WaitForSeconds (0.5f); // TODO Parameterise
+			}
+		}
+
+		private void CycleWaypointWhenClose (Vector3 nextWaypointPos) {
+			if (Vector3.Distance (transform.position, nextWaypointPos) <= waypointTolerance) {
+				nextWaypointIndex = (nextWaypointIndex + 1) % patrolPath.transform.childCount;
+			}
+		}
 
 		IEnumerator ChasePlayer() {
 			state = State.chasing;
