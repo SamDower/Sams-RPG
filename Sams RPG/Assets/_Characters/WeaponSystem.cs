@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -28,7 +27,24 @@ namespace RPG.Characters {
 		}
 
 		void Update () {
-			
+			bool targetIsDead;
+			bool targetIsOutOfRange;
+			if (target = null) {
+				targetIsDead = false;
+				targetIsOutOfRange = false;
+			} else {
+				var targetHealth = target.GetComponent<HealthSystem> ().healthAsPercentage;
+				targetIsDead = targetHealth <= Mathf.Epsilon;
+				var distanceToTarget = Vector3.Distance (transform.position, target.transform.position);
+				targetIsOutOfRange = distanceToTarget > currentWeaponConfig.GetMaxAttackRange ();
+			}
+
+			float characterHealth = GetComponent<HealthSystem> ().healthAsPercentage;
+			bool characterIsDead = (characterHealth <= Mathf.Epsilon);
+
+			if (characterIsDead || targetIsOutOfRange || targetIsDead) {
+				StopAllCoroutines ();
+			}
 		}
 
 		public void PutWeaponInHand(WeaponConfig weaponToUse) {
@@ -43,7 +59,35 @@ namespace RPG.Characters {
 
 		public void AttackTarget (GameObject targetToAttack) {
 			target = targetToAttack;
-			// TODO Use a repeat attack coroutine
+			StartCoroutine (AttackTargetRepeatedly ());
+		}
+
+		IEnumerator AttackTargetRepeatedly() {
+			bool attackerStillAlive = GetComponent<HealthSystem> ().healthAsPercentage > Mathf.Epsilon;
+			bool targetStillAlive = target.GetComponent<HealthSystem> ().healthAsPercentage > Mathf.Epsilon;
+			while (attackerStillAlive && targetStillAlive) {
+				float weaponHitPeriod = currentWeaponConfig.GetMinTimeBetweenHits ();
+				float timeToWait = weaponHitPeriod * character.GetanimSpeedMultiplier();
+				bool isTimeToHitAgain = Time.time - lastHitTime > timeToWait;
+				if (isTimeToHitAgain) {
+					AttackTargetOnce ();
+					lastHitTime = Time.time;
+				}
+				yield return new WaitForSeconds (timeToWait);
+			}
+		}
+
+		void AttackTargetOnce() {
+			transform.LookAt (target.transform);
+			animator.SetTrigger (ATTACK_TRIGGER);
+			float damageDelay = 1.0f; // TODO Get from weapon
+			SetAttackAnimation();
+			StartCoroutine (DamageAfterDelay (damageDelay));
+		}
+
+		IEnumerator DamageAfterDelay(float delay) {
+			yield return new WaitForSecondsRealtime (delay);
+			target.GetComponent<HealthSystem> ().TakeDamage (CalculateDamage());
 		}
 
 		public WeaponConfig GetCurrentWeapon() {
@@ -51,7 +95,6 @@ namespace RPG.Characters {
 		}
 
 		private void SetAttackAnimation() {
-			animator = GetComponent<Animator> ();
 			var animatorOverrideController = character.GetOverrideController ();
 			animator.runtimeAnimatorController = animatorOverrideController;
 			animatorOverrideController [DEFAULT_ATTACK] = currentWeaponConfig.GetAnimClip ();
@@ -65,7 +108,7 @@ namespace RPG.Characters {
 			return dominantHands [0].gameObject;
 		}
 
-		// TODO Use Coroutines
+		// TODO work out wether this is actually needed
 		void AttackTarget () { 
 			if (Time.time - lastHitTime > currentWeaponConfig.GetMinTimeBetweenHits()) {
 				SetAttackAnimation ();
