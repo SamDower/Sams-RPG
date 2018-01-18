@@ -84,7 +84,7 @@ namespace RPG.Characters {
 		void AttackTargetOnce() {
 			transform.LookAt (target.transform);
 			animator.SetTrigger (ATTACK_TRIGGER);
-			float damageDelay = 1.0f; // TODO Get from weapon
+			float damageDelay = currentWeaponConfig.GetDamageDelay ();
 			SetAttackAnimation();
 			StartCoroutine (DamageAfterDelay (damageDelay));
 		}
@@ -110,15 +110,6 @@ namespace RPG.Characters {
 			Assert.IsFalse (numberOfDominantHands <= 0, "No Dominant Hand Found On Player, ADD ONE!");
 			Assert.IsFalse (numberOfDominantHands > 1, "Multiple No Dominant Hands Found On Player, REMOVE SOME!");
 			return dominantHands [0].gameObject;
-		}
-
-		// TODO work out wether this is actually needed
-		void AttackTarget () { 
-			if (Time.time - lastHitTime > currentWeaponConfig.GetMinTimeBetweenHits()) {
-				SetAttackAnimation ();
-				animator.SetTrigger (ATTACK_TRIGGER);
-				lastHitTime = Time.time;
-			} 
 		}
 
 		float CalculateDamage() {

@@ -1,23 +1,17 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj" RefactoringSettings.EnableRefactorings="True">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\_Characters\WaypointContainer.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\_Characters\WeaponSystem.cs">
     <Files>
-      <File FileName="Assets\_Characters\Player\PlayerMovement.cs" Line="8" Column="49" />
-      <File FileName="Assets\_Characters\WeaponSystem.cs" Line="69" Column="26" />
-      <File FileName="Assets\_Characters\Character.cs" Line="34" Column="3" />
-      <File FileName="Assets\_Characters\_Weapons\WeaponPickup.cs" Line="31" Column="29" />
-      <File FileName="Assets\_Characters\Enemies\EnemyAI.cs" Line="33" Column="5" />
-      <File FileName="Assets\_Characters\WaypointContainer.cs" Line="4" Column="1" />
+      <File FileName="Assets\_Characters\Player\PlayerControl.cs" Line="55" Column="1" />
+      <File FileName="Assets\_Characters\Player\SpecialAbilities.cs" Line="7" Column="2" />
+      <File FileName="Assets\_Characters\Enemies\EnemyAI.cs" Line="57" Column="57" />
+      <File FileName="Assets\_Characters\WeaponSystem.cs" Line="75" Column="13" />
+      <File FileName="Assets\_Characters\_Special Abilities\Power Attack\PowerAttackBehaviour.cs" Line="15" Column="2" />
+      <File FileName="Assets\_Characters\_Weapons\WeaponConfig.cs" Line="7" Column="2" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <RunToCursorBreakpoint file="E:\Games\Unity Course - RPG\Sams RPG\Assets\_Characters\Player\PlayerMovement.cs" line="23" column="30" />
-      <RunToCursorBreakpoint file="E:\Games\Unity Course - RPG\Sams RPG\Assets\_Characters\WeaponSystem.cs" line="54" column="40" />
-      <RunToCursorBreakpoint file="E:\Games\Unity Course - RPG\Sams RPG\Assets\_Characters\WeaponSystem.cs" line="75" column="28" />
-      <RunToCursorBreakpoint file="E:\Games\Unity Course - RPG\Sams RPG\Assets\_Characters\WeaponSystem.cs" line="75" column="28" />
-      <RunToCursorBreakpoint file="E:\Games\Unity Course - RPG\Sams RPG\Assets\_Characters\WeaponSystem.cs" line="71" column="29" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>
