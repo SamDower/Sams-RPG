@@ -67,7 +67,9 @@ namespace RPG.Characters {
 		}
 
 		void UpdateEnergyBar () {
-			energybar.fillAmount = energyAsPercent;
+			if (energybar) {
+				energybar.fillAmount = energyAsPercent;
+			}
 		}
 	}
 }
